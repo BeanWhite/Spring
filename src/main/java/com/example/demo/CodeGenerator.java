@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
     private static String USER_NAME = "www";
     private static String USER_PWD = "123456";
-    private static String ROOT_PATH = "com.example.demo2.mybatisPlus";
+    private static String ROOT_PATH = "com.example.demo.mybatisPlus";
     private static String SQL_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static String SQL_DRIVER_OLD = "com.mysql.jdbc.Driver";
     private static String SQL_URL = "jdbc:mysql://localhost:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&autoReconnect=true&characterEncoding=UTF-8";
