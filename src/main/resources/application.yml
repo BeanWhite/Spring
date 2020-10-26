@@ -1,0 +1,81 @@
+server:
+  port: 7700
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化连接大小
+      initial-size: 12
+      # 最小空闲连接数
+      min-idle: 5
+      #最大连接数
+      max-active: 64
+      #查询超时时间
+      query-timeout: 6000
+      #事务查询超时时间
+      transaction-query-timeout: 6000
+      #关闭空闲连接超时时间
+      remove-abandoned: false
+      remove-abandoned-timeout: 18000
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      ##配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      ##配置一个连接在池中最小生存的时间，单位是毫秒
+      min-victable-idle-time-millis: 300000
+      validation-query: select 1 from DUAL
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: true
+      pool-prepared-statements: true
+      max-open-prepared-statements: 300
+      verify-server-certificate: false
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&autoReconnect=true&characterEncoding=UTF-8
+      username: www
+      password: 123456
+      stat-view-servlet:
+        login-username:
+        login-password:
+        reset-enable: false
+        url-pattern: /druid/*
+        enabled: true
+        allow: 127.0.0.1
+      web-stat-filter:
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,/favicon.ico"
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+    time-zone: "GMT+8"
+#  redis:
+#    host: localhost
+#    port: 6379
+#    database: 0
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+#        max-wait: -1
+#    timeout: 5000
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.mybatisPlus.entity
+
+#pagehelper:
+#  auto-dialect: mysql
+#  reasonable: false
+#  page-size-zero: true
+
+
+logging:
+  com.fuyao.m: WARN
+  file:
+    path: log
