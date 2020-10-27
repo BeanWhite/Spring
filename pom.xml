@@ -19,6 +19,14 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>2.3.4.RELEASE</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -43,33 +51,33 @@
             <version>8.0.22</version>
         </dependency>
 
-<!--        mybatisPlus-->
+        <!--        mybatisPlus-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.0</version>
         </dependency>
-<!--        生成器依赖-->
+        <!--        生成器依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.4.0</version>
         </dependency>
-<!--        代码生成三种模板-->
-<!--        Velocity（默认）：-->
+        <!--        代码生成三种模板-->
+        <!--        Velocity（默认）：-->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
             <version>2.2</version>
         </dependency>
-<!--        Freemarker：-->
+        <!--        Freemarker：-->
 
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.30</version>
         </dependency>
-<!--        Beetl：-->
+        <!--        Beetl：-->
 
         <dependency>
             <groupId>com.ibeetl</groupId>
@@ -77,21 +85,21 @@
             <version>3.2.2.RELEASE</version>
         </dependency>
 
-<!--        日志打印工具-->
+        <!--        日志打印工具-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.16</version>
             <scope>provided</scope>
         </dependency>
-<!--        阿里数据源-->
+        <!--        阿里数据源-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.22</version>
         </dependency>
 
-<!--        fastJSON-->
+        <!--        fastJSON-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -99,10 +107,21 @@
         </dependency>
 
 
-
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <!--                加载resources中的内容-->
+                <targetPath>${project.build.directory}/classes</targetPath>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>*.*</include>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

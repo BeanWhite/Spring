@@ -1,6 +1,7 @@
 package com.example.demo;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -56,8 +57,7 @@ public class CodeGenerator {
     }
 
 
-
-    private static InjectionConfig getInjectionConfig(final String moduleName){
+    private static InjectionConfig getInjectionConfig(final String moduleName) {
         return new InjectionConfig() {
             @Override
             public void initMap() {
@@ -78,6 +78,7 @@ public class CodeGenerator {
                 .setControllerMappingHyphenStyle(true)
                 .setEntityBuilderModel(true)
                 .setTablePrefix(tablePrefix + "_")
+
                 .setEntityTableFieldAnnotationEnable(true);
     }
 
@@ -106,7 +107,7 @@ public class CodeGenerator {
 
 
         String projectPath = System.getProperty("user.dir");
-        String filePath = projectPath + "/"+MODULAR_NAME+SRC_MAIN_JAVA;
+        String filePath = projectPath + "/" + MODULAR_NAME + SRC_MAIN_JAVA;
         return new GlobalConfig()
                 .setOutputDir(filePath)
                 .setAuthor("wang")
@@ -128,12 +129,13 @@ public class CodeGenerator {
                 .setMapper("templates/mapper.java.vm")
                 .setXml(null);
     }
-    private static void autoGenerator(String moduleName,String tableName,String tablePrefix){
+
+    private static void autoGenerator(String moduleName, String tableName, String tablePrefix) {
         new AutoGenerator()
                 .setGlobalConfig(getGlobalConfig())
                 .setDataSource(getDataSourceConfig())
                 .setPackageInfo(getPackageConfig(moduleName))
-                .setStrategy(getStrategyConfig(tableName,tablePrefix))
+                .setStrategy(getStrategyConfig(tableName, tablePrefix))
                 .setCfg(getInjectionConfig(moduleName))
                 .setTemplate(getTemplateConfig())
                 .setTemplateEngine(new VelocityTemplateEngine())
@@ -145,7 +147,7 @@ public class CodeGenerator {
         GL();
     }
 
-    private static void GL(){
+    private static void GL() {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -157,6 +159,10 @@ public class CodeGenerator {
         gc.setOpen(false);
         gc.setBaseResultMap(true);
         gc.setBaseColumnList(true);
+        gc.setIdType(IdType.INPUT);//将ID设置为自己输入的，如果id为自增，尝试设置为auto
+        gc.setFileOverride(false);
+
+
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
@@ -185,7 +191,6 @@ public class CodeGenerator {
         };
 
 
-
         // 如果模板引擎是 freemarker
         String templatePath = "templates/mapper.xml.ftl";
         // 如果模板引擎是 velocity
@@ -199,7 +204,7 @@ public class CodeGenerator {
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                 return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                        + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         /*
@@ -220,33 +225,38 @@ public class CodeGenerator {
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
-        // 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
+//        // 配置模板
+//        TemplateConfig templateConfig = new TemplateConfig();
+//
+//        // 配置自定义输出模板
+//        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
+//         templateConfig.setEntity("templates/entity.java.vm");
+//        // templateConfig.setService();
+//        // templateConfig.setController();
+//
+//        templateConfig.setXml(null);
 
-        // 配置自定义输出模板
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        // templateConfig.setEntity("templates/entity2.java");
-        // templateConfig.setService();
-        // templateConfig.setController();
 
-        templateConfig.setXml(null);
+        TemplateConfig templateConfig = new TemplateConfig()
+                .setController("templates/controller.java")
+                .setService("templates/service.java")
+                .setServiceImpl("templates/serviceImpl.java")
+                .setEntity("templates/entity.java")
+                .setMapper("templates/mapper.java")
+                .setXml(null);
         mpg.setTemplate(templateConfig);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
-        strategy.setEntityLombokModel(true);
+        strategy.setEntityLombokModel(false);
         strategy.setRestControllerStyle(true);
-        // 公共父类
-//        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id");
-//        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+        strategy.setChainModel(true);
         strategy.setInclude("student,user".split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
+        strategy.setEntitySerialVersionUID(false);//关闭序列化id
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

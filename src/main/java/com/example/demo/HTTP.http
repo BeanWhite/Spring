@@ -1,0 +1,4 @@
+GET http://localhost:7700/student/t
+Accept: application/json
+
+###
