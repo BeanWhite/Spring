@@ -1,4 +1,8 @@
-GET http://localhost:7700/student/t
+GET http://localhost:80/api/item?id=99
 Accept: application/json
+
+###
+GET http://www.qq.com
+Accept: application/xhtml+xml
 
 ###

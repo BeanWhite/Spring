@@ -32,7 +32,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     public void test() {
         List<Student> students = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10; i++) {
             Student student = new Student();
             student.setSex("fa");
             student.setName("ghgh");
